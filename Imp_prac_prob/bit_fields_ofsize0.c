@@ -17,9 +17,7 @@ struct test2 {
 
 int main()
 {
-	printf("Size of test1 is %lu bytes\n",
-		sizeof(struct test1)); // output: 4 bytes
-	printf("Size of test2 is %lu bytes\n",
-		sizeof(struct test2)); // 8 bytes
+	printf("Size of test1 is %lu bytes\n", sizeof(struct test1)); // output: 4 bytes
+	printf("Size of test2 is %lu bytes\n", sizeof(struct test2)); // 8 bytes
 	return 0;
 }

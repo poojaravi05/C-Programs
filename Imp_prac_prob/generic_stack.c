@@ -2,28 +2,28 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef enum{
+typedef enum {
     STACK_INT,
     STACK_CHAR,
     STACK_UINT64
 }DataType;
 
-typedef struct stack{
+typedef struct stack {
     DataType type;
     size_t size;
     void* data;
     void* top;
 }stack;
 
-stack stackCreate(size_t size, DataType type){
+stack stackCreate(size_t size, DataType type) {
     size_t effectiveSize = 0;
-    if(type == STACK_CHAR){
+    if(type == STACK_CHAR) {
         effectiveSize = size * sizeof(char);
     }
-    else if(type == STACK_INT){
+    else if(type == STACK_INT) {
         effectiveSize = size * sizeof(int);
     }
-    else if(type == STACK_UINT64){
+    else if(type == STACK_UINT64) {
         effectiveSize = size * sizeof(unsigned long long);
     }
 
@@ -36,12 +36,12 @@ stack stackCreate(size_t size, DataType type){
     return s;
 }
 
-void stackDelete(stack* s){
+void stackDelete(stack* s) {
     free(s->data);
     s->data = NULL;
 }
 
-int main(){
+int main() {
     stack s = stackCreate(10, STACK_INT);
     //when we want to read/write data to/from pointer, we have to cast it.
     //or else it will be dereferenced.

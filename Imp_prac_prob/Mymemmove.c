@@ -31,6 +31,6 @@ int main()
     char cdest[100] = "Practice";
     printf("Before: csrc = %s, cdest = %s\n", csrc, cdest);
     myMemMove(csrc + 5, csrc, strlen(csrc) + 1);
-    printf("After: csrc = %s, cdest = %s\n", csrc, cdest); //GeeksGeeksfor
+    printf("After: csrc = %s, cdest = %s\n", csrc, cdest); //GeeksGeeksforGeeks
     return 0;
 }

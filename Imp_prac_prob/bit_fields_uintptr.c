@@ -2,7 +2,7 @@
 #include <stdint.h>
 
 //uintptr cannot be used to dereference
-//it canbe best to play with byte addresses
+//it can be best to play with byte addresses
 
 struct __attribute__((packed)) test {
 	// Unsigned integer member x

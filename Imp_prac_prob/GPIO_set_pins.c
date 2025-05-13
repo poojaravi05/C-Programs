@@ -5,9 +5,6 @@
 #include <stdint.h>
 
 // Volatile for register values. Hardware may change its value at any time
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
 
 // Define GPIO register structure
 typedef struct {

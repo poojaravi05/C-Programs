@@ -22,6 +22,7 @@ int main()
     printf("Before: csrc = %s, cdest = %s\n", csrc, cdest);
     //mymemcpy(cdest, csrc, size); //Something
     mymemcpy(cdest+6, csrc, size); //CopiedSomething
+    mymemcpy(csrc+5, csrc, size);
     printf("After: csrc = %s, cdest = %s\n", csrc, cdest);
     printf("Copied string is %s\n", cdest);
     

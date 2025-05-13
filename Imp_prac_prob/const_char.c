@@ -13,7 +13,7 @@ int main()
     ch_ptr = &ch_2;
     printf("ch_ptr = %p, *ch_ptr = %c\n", ch_ptr, *ch_ptr);
     
-    //*ch_ptr = 'C'; 
+    /*ch_ptr = 'C'; 
     //printf("ch_ptr = %p, *ch_ptr = %c\n", ch_ptr, *ch_ptr);
     */
     

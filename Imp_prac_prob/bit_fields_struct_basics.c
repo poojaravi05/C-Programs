@@ -10,7 +10,7 @@ int main()
 {
 	struct test t;
 
-	// Uncommenting the following line will make
+	// Uncommenting the following line will not make
 	// the program compile and run
 	//printf("Address of t.x is %p", &t.x);
 
@@ -21,7 +21,7 @@ int main()
 }
 
 /*
-// C Program to show what happends when out of range value
+// C Program to show what happenss when out of range value
 // is assigned to bit field member
 #include <stdio.h>
 

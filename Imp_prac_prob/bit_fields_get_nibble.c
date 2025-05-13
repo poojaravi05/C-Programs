@@ -22,6 +22,5 @@ int main()
            u.sh, u.short_nibbles.nibble0, u.short_nibbles.nibble1, u.short_nibbles.nibble2,
            u.short_nibbles.nibble3);
     
-
     return 0;
 }
