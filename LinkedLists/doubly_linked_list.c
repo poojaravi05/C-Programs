@@ -1,171 +1,227 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-typedef struct Node{
+typedef struct Node {
     int data;
+    struct Node* link;
     struct Node* prev;
-    struct Node* next;
 }Node;
 
-void add_node(Node* head, int data, int pos){
-    if(head == NULL){
-        return;
+int add_node(Node* head, int data, int pos) {
+    if(head == NULL) {
+        return -1;
     }
-    Node* new_node = (Node*)malloc(sizeof(Node));
-    if(new_node == NULL){
-        return;
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    if(newNode == NULL) {
+        return -1;
     }
-    Node* temp = head->next;
+    Node* tmp = head;
+    newNode->data = data;
+    newNode->link = NULL;
+    newNode->prev = NULL;
+    
     pos--;
-    new_node->data = data;
-    while(pos != 1){
-        temp = temp->next;
+    while(pos > 0 && tmp->link != NULL) {
+        tmp = tmp->link;
         pos--;
     }
-    new_node->next = temp->next;
-    temp->next = new_node;
-    new_node->prev = temp;
-}
-
-void add_front(Node* head, int data){
-    if(head == NULL){
-        return;
-    }
-    Node* new_node = (Node*)malloc(sizeof(Node));
-    if(new_node == NULL){
-        return;
-    }
-    new_node->data = data;
-    new_node->next = head->next;
-    new_node->prev = head;
-    head->next = new_node;
-}
-
-void add_tail(Node* head, int data){
-    if(head == NULL){
-        return;
-    }
-    Node* new_node = (Node*)malloc(sizeof(Node));
-    if(new_node == NULL){
-        return;
-    }
-    new_node->data = data;
-    new_node->next = NULL;
-    Node* temp = head->next;
-    while(temp->next != NULL){
-        temp = temp->next;
-    }
-    new_node->prev = temp;
-    temp->next = new_node;
-}
-
-void del_node(Node* head, int data){
-    if(head == NULL){
-        return;
-    }
-    Node* temp = head->next;
-    while(temp != NULL){
-        if(temp->data == data){
-            head->next = temp->next;
-            free(temp);
-            temp = head->next;
-            temp->prev = head;
-            return;
-        }
-        head = temp;
-        temp = temp->next;
-    }
-    printf("Element %d not found to delete\n", data);
-}
-
-void del_front(Node* head){
-    if(head == NULL){
-        return;
-    }
-    Node* temp = head->next;
-    head->next = temp->next;
-    free(temp);
-    temp = head->next;
-    temp->prev = head;
-}
-
-void del_tail(Node* head){
-    if(head == NULL){
-        return;
-    }
-    Node* temp = head->next;
-    while(temp->next != NULL){
-        head = head->next;
-        temp = temp->next;
-    }
-    free(temp);
-    head->next = NULL;
-}
-
-void count_node(Node* head){
-    if(head == NULL){
-        return;
-    }
-    int cnt = 0;
-    Node* temp = head->next;
-    while(temp != NULL){
-        temp = temp->next;
-        cnt++;
-    }
-    printf("Count = %d\n", cnt);
-}
-
-void display(Node* head){
-    if(head == NULL){
-        return;
-    }
-    Node* temp = head->next;
-    while(temp != NULL){
-        printf("%d <-> ", temp->data);
-        temp = temp->next;
-    }
-    printf("NULL\n");
-}
-
-void destroy(Node* head){
-    if(head == NULL){
-        return;
-    }
-    Node* temp = head->next;
-    while(head != NULL){
-        free(head);
-        head = temp;
-        temp = temp->next;
-    }
-    return;
-}
-
-int main(){
-    Node* head = (Node*)malloc(sizeof(Node));
-    head->prev = NULL;
-    head->next = NULL;
-
-    add_front(head, 1);
-    add_front(head, 2);
-    add_front(head, 3);
-    add_node(head, 15, 3);
-    add_tail(head, 4);
-    add_tail(head, 5);
-    display(head);
+    newNode->link = tmp->link;
+    newNode->prev = tmp;
     
-    del_front(head);
-    del_tail(head);
-    del_node(head, 15);
-    del_node(head, 6);
-    display(head);
-    
-    count_node(head);
-    
-    destroy(head);
-    free(head);
-    display(head);
+    if(tmp->link != NULL)
+        tmp->link->prev = newNode;
+    tmp->link = newNode;
     
     return 0;
 }
 
+int add_front(Node* head, int data) {
+    if(head == NULL) {
+        return -1;
+    }
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    if(newNode == NULL) {
+        return -1;
+    }
+    Node* tmp = head;
+    newNode->data = data;
+    newNode->prev = head;
+    newNode->link = tmp->link;
+    
+    if (head->link != NULL)
+        tmp->link->prev = newNode;
+    tmp->link = newNode;
+    
+    return 0;
+}
+
+int add_tail(Node* head, int data) {
+    if(head == NULL) {
+        return -1;
+    }
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    if(newNode == NULL) {
+        return -1;
+    }
+    newNode->data = data;
+    newNode->link = NULL;
+    Node* tmp = head;
+    while(tmp->link != NULL) {
+        tmp = tmp->link;
+    }
+    tmp->link = newNode;
+    newNode->prev = tmp;
+    return 0;
+}
+
+int delete_node(Node* head, int data) {
+    if(head == NULL) {
+        return -1;
+    }
+    Node* tmp = head;
+    Node* curr = head->link;
+    
+    while(curr != NULL) {
+        if(curr->data == data) {
+            tmp->link = curr->link;
+            if(curr->link != NULL)
+                curr->link->prev = tmp;
+            free(curr);
+            return 0;
+        }
+        tmp = curr;
+        curr = curr->link;
+    }
+    printf("%d not found in list\n", data);
+    return 0;
+}
+
+int delete_front(Node* head) {
+    if(head == NULL) {
+        return -1;
+    }
+    Node* tmp = head->link;
+    head->link = tmp->link;
+    if (tmp->link != NULL)
+        tmp->link->prev = head;
+    free(tmp);
+    return 0;
+}
+
+int delete_tail(Node* head) {
+    if(head == NULL || head->link == NULL) {
+        return -1;
+    }
+    Node* tmp = head;
+    Node* curr = head->link;
+    while(curr->link != NULL) {
+        tmp = curr;
+        curr = tmp->link;
+    }
+    tmp->link = NULL;
+    free(curr);
+    return 0;
+}
+
+int display_ll(Node* head) {
+    if(head == NULL) {
+        return -1;
+    }
+    Node* tmp = head->link;
+    printf("Linked List elements are: ");
+    while(tmp != NULL) {
+        printf("%d <-> ", tmp->data);
+        tmp = tmp->link;
+    }
+    printf("\n");
+    return 0;
+}
+
+int count_node(Node* head) {
+    if(head == NULL) {
+        return -1;
+    }
+    int cnt = 0;
+    Node* tmp = head->link;
+    while(tmp != NULL) {
+        cnt++;
+        tmp = tmp->link;
+    }
+    printf("Number of nodes = %d\n", cnt);
+    return 0;
+}
+
+int reverse_ll(Node* head) {
+    if(head == NULL) {
+        return -1;
+    }
+    Node* tmp = head->link;
+    Node* curr = tmp;
+    Node* prev = NULL;
+    
+    while(curr != NULL) {
+        curr = tmp->link;
+        tmp->link = prev;
+        tmp->prev = curr;
+        prev = tmp;
+        tmp = curr;
+    }
+    head->link = prev;
+    if (prev != NULL)
+        prev->prev = head;
+    return 0;
+}
+
+int destroy_ll(Node* head) {
+    if(head == NULL) {
+        return -1;
+    }
+    Node* tmp = head->link;
+    while(tmp != NULL) {
+        head->link = tmp->link;
+        free(tmp);
+        tmp = head->link;
+    }
+    return 0;
+}
+
+int main() {
+    Node* head = (Node*)malloc(sizeof(Node));
+    head->link = NULL;
+    head->prev = NULL;
+    
+    add_front(head, 1);
+    add_front(head, 2);
+    add_front(head, 3);
+    display_ll(head);
+    
+    add_tail(head, 4);
+    add_tail(head, 5);
+    add_tail(head, 6);
+    display_ll(head);
+    
+    add_node(head, 7, 4);
+    display_ll(head);
+    
+    count_node(head);
+    reverse_ll(head);
+    display_ll(head);
+    
+    delete_node(head, 3);
+    display_ll(head);
+    delete_node(head, 8);
+    
+    delete_front(head);
+    display_ll(head);
+    
+    delete_tail(head);
+    display_ll(head);
+    
+    count_node(head);
+    reverse_ll(head);
+    display_ll(head);
+    
+    destroy_ll(head);
+    
+    return 0;
+}
