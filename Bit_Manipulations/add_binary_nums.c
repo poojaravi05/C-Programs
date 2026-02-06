@@ -1,3 +1,5 @@
+#Add 2 numbers in binary format like manually adding bits
+
 #include <stdio.h>
 #include <stdint.h>
 
