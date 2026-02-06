@@ -11,6 +11,7 @@ int main()
         n >>= 1;
     }
     printf("Position of set bit is %d", cnt);
-    
+
+    //return log2(n) + 1;
     return 0;
 }
