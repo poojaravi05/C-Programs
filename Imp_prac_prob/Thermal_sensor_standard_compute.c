@@ -83,6 +83,8 @@ void write_val(int32_t val) {
         my_info.cnt++;
         // Check for overflow during initial fill
         next_total = (int64_t)current_total + val;
+        //To add up the value to current total (total += next_total)
+        //atomic_fetch_add(&my_info.total, next_total);
     }
     
     //update total
@@ -95,6 +97,7 @@ void write_val(int32_t val) {
     else {
         current_total = (int32_t)next_total;
     }
+    //Replace the existing total value with current_total (total = current_total)
     atomic_store(&my_info.total, current_total);
 
     // Update extremes if new value is a new min/max
