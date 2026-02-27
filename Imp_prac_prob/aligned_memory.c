@@ -21,7 +21,7 @@ void *aligned_malloc(size_t sz, uint32_t alignment)
      * treat aligned as a number and check if it is aligned with the alignment requested.
      * if not, keep moving by one byte until it becomes aligned prefectly
      */
-    while ((size_t)aligned % alignment != 0)
+    while ((uintptr_t)aligned % alignment != 0)
     {
         aligned++;
     }
@@ -61,7 +61,7 @@ int main()
     int *arr = (int *)aligned_malloc(sz, alignment);
     assert(arr);
     
-    if ((size_t)arr % alignment == 0)
+    if ((uintptr_t)arr % alignment == 0)
     {
         printf("%s: Array: %p in perfect alignment: %d\n", __func__, arr, alignment);
     }
