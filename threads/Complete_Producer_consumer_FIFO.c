@@ -83,6 +83,10 @@ int main() {
     for(int i = 0; i < CONSUMER_COUNT; i++) {
         pthread_join(consumer_th[i], NULL);
     }
+
+    sem_destroy(&semFull);
+    sem_destroy(&semEmpty);
+    pthread_mutex_destroy(&mutex);
     
     return 0;
 }
