@@ -28,12 +28,17 @@ void write_queue(cq* queue, int data) {
         return;
     }
     */
+    //overwrite case
+    if(queue->cnt == queue->sz) {
+        queue->rd_ptr = (queue->rd_ptr + 1) % queue->sz;
+    }
+    else {
+        queue->cnt++;
+    }
     queue->arr[queue->wr_ptr] = data;
     queue->wr_ptr = (queue->wr_ptr + 1) % queue->sz;
-    queue->cnt++;
-    if(queue->cnt > queue->sz) {
-        queue->cnt = queue->sz;
-    }
+    //queue->cnt++;
+    
     return;
 }
 
@@ -57,10 +62,10 @@ void display_queue(cq* queue) {
     int n = queue->cnt;
     int rd = queue->rd_ptr;
     printf("Queue elements are: ");
-    while(n) {  //6 5 4 3 2 1 0
-        printf("%d ", queue->arr[rd]); //7 2 3 4 5 6
-        n--;    // 5 4 3 2 1 0
-        rd = (rd + 1) % queue->sz;  //1 2 3 4 5 0
+    while(n) {
+        printf("%d ", queue->arr[rd]);
+        n--;
+        rd = (rd + 1) % queue->sz;
     }
     printf("\n");
     return;
