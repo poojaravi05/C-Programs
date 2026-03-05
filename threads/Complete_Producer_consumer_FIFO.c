@@ -30,8 +30,8 @@ void* producer(void* args) {
         buffer[in] = item;
         printf("Producer %d produced %d at index %d\n", id, item, in);
         in = (in + 1) % BUFFER_SIZE;
-        sem_post(&semFull);
         pthread_mutex_unlock(&mutex);
+        sem_post(&semFull);
     }
     return NULL;
 }
@@ -45,8 +45,8 @@ void* consumer(void* args) {
         int item = buffer[out];
         printf("Consumer %d consumed %d from index %d\n", id, item, out);
         out = (out + 1) % BUFFER_SIZE;
-        sem_post(&semEmpty);
         pthread_mutex_unlock(&mutex);
+        sem_post(&semEmpty);
         
         sleep(1);
     }
