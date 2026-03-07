@@ -23,22 +23,18 @@ void barrier_init(barrier_t *b, int threshold) {
 }
 
 void barrier_wait(barrier_t *b) {
-
     int current_cycle = atomic_load(&b->cycle);
-
+    
+    // If we are the last thread to arrive
     if (atomic_fetch_add(&b->count, 1) == b->threshold - 1) {
-
-        atomic_store(&b->count, 0);
-        atomic_fetch_add(&b->cycle, 1);
-
+        atomic_store(&b->count, 0);       // Reset count
+        atomic_fetch_add(&b->cycle, 1);   // Change cycle to wake others
         syscall(SYS_futex, &b->cycle, FUTEX_WAKE, INT_MAX, NULL, NULL, 0);
-
     } else {
-
+        // Wait for the cycle to change
         while (atomic_load(&b->cycle) == current_cycle) {
             syscall(SYS_futex, &b->cycle, FUTEX_WAIT, current_cycle, NULL, NULL, 0);
         }
-
     }
 }
 
