@@ -13,6 +13,8 @@ int atomic_inc_manual(atomic_int *ptr) {
     do {
         old_val = atomic_load(ptr);
         new_val = old_val + 1;
+        // Only updates if *ptr is still old_val. 
+        // If someone else changed it, we loop and try again.
     } while (!atomic_compare_exchange_strong(ptr, &old_val, new_val));
 
     return new_val;
