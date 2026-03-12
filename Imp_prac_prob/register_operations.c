@@ -43,3 +43,16 @@ void set_fan_speed(uint8_t speed) {
     current_val |= ((uint32_t)speed & 0xF) << 4;  // 2. MODIFY (Insert new bits)
     THERMAL_CTRL_REG = current_val;               // 3. WRITE
 }
+
+//==========================================================================================
+
+#define SENSOR_BASE_ADDR 0x40001000
+// 'volatile' ensures we read from the actual pin, not a cached CPU register
+#define THERMAL_REG (*(volatile uint32_t *)SENSOR_BASE_ADDR)
+
+// Pattern: Read-Modify-Write (RMW)
+void enable_sensor_bit(uint8_t bit_index) {
+    uint32_t val = THERMAL_REG;       // Read
+    val |= (1U << bit_index);         // Modify
+    THERMAL_REG = val;                // Write
+}
