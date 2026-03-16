@@ -33,6 +33,20 @@ int swap_Endians(int value)
 			| right_middle_byte | rightmost_byte);
 
 	return result;
+
+	/*
+	n = ((n << 8) & 0xFF00FF00) | ((n >> 8) & 0x00FF00FF);
+    return (n << 16) | (n >> 16);
+	*/
+
+	/*
+	leftmost_byte   = (n & 0x000000FF) << 24;
+    leftmiddle_byte = (n & 0x0000FF00) << 8;
+    rightmiddle_byte= (n & 0x00FF0000) >> 8;
+    rightmost_byte  = (n & 0xFF000000) >> 24;
+	
+	return leftmost_byte | leftmiddle_byte | rightmiddle_byte | rightmost_byte;
+	*/
 }
 
 //Function to swap bytes of a 16-bit unsigned integer
