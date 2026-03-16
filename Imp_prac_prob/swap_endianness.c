@@ -63,6 +63,19 @@ uint64_t swap_uint64_verbose(uint64_t val) {
            ( (val & 0xFF00000000000000ULL) >> 56 );
 }
 
+void print_bits(uint64_t n) {
+    int sz = (sizeof(n) * 8) + 1;
+    char bits_array[sz];
+    bits_array[sz-1] = '\0';
+    uint64_t tmp = n;
+    for(int i = sz-2; i >= 0; i--) {
+        bits_array[i] = '0' + (n & 1);
+        n >>= 1;
+    }
+    printf("%s: Bits: %s, num: 0x%llx\n", __func__, bits_array, tmp);
+    return;
+}
+
 int main()
 {
 	int big_Endian = 0x12345678;
@@ -76,6 +89,29 @@ int main()
 
 	printf("big Endian to little: 0x%x\nlittle Endian to big: 0x%x\n",
 		result1, result2);
+
+	/*
+	uint16_t n1 = 0x0102;
+    uint64_t n1_cast = (uint64_t)n1;
+    print_bits(n1_cast);
+    uint16_t res1 = swap_endianness2(n1);
+    uint64_t res1_cast = (uint64_t)res1;
+    print_bits(res1_cast);
+    printf("\n");
+    
+    uint32_t n2 = 0x01020304;
+    uint64_t n2_cast = (uint64_t)n2;
+    print_bits(n2_cast);
+    uint32_t res2 = swap_endianness4(n2);
+    uint64_t res2_cast = (uint64_t)res2;
+    print_bits(res2_cast);
+    printf("\n");
+    
+    uint64_t n3 = 0x0102030405060708;
+    print_bits(n3);
+    uint64_t res3 = swap_endianness8(n3);
+    print_bits(res3);
+	*/
 
 	return 0;
 }
