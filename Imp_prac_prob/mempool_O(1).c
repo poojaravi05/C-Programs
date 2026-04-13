@@ -33,7 +33,7 @@ void* pool_alloc(void) {
     pthread_mutex_lock(&mutex);
 
     if (pool.cnt == 0) {
-        printf("Pool is empty!!\n");
+        printf("No memory in pool!!\n");
         pthread_mutex_unlock(&mutex);
         return NULL;
     }
