@@ -20,6 +20,33 @@ uint32_t add_binary(uint32_t a, uint32_t b) {
     return result;
 }
 
+/*
+int add_binary(int n1, int n2) {
+    int carry = 0;
+    int res = 0;
+    int pos = 0;
+
+    while(n1 || n2 || carry) {
+        int bit1 = n1 & 1;
+        int bit2 = n2 & 1;
+
+        int sum = bit1 + bit2 + carry;
+
+        int result_bit = sum % 2;
+        carry = sum / 2;
+
+        res |= (result_bit << pos);
+
+        pos++;
+
+        n1 >>= 1;
+        n2 >>= 1;
+    }
+
+    return res;
+}
+*/
+
 int main() {
     uint32_t a = 5;   // 0101
     uint32_t b = 3;   // 0011
