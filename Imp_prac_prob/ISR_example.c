@@ -39,6 +39,41 @@ void process_packet() {
     return;
 }
 
+/*
+/* ISR */
+void UART_RX_ISR(void)
+{
+    uint8_t data = UART_DATA_REGISTER;
+
+    uint16_t next_head = (head + 1) % BUFFER_SIZE;
+
+    /* Prevent overflow */
+    if (next_head != tail)
+    {
+        rx_buffer[head] = data;
+        head = next_head;
+    }
+
+    /* Example: newline indicates packet complete */
+    if (data == '\n')
+    {
+        packet_ready = true;
+    }
+}
+
+/* Main application */
+void process_packet(void)
+{
+    while (tail != head)
+    {
+        uint8_t data = rx_buffer[tail];
+        tail = (tail + 1) % BUFFER_SIZE;
+
+        printf("%c", data);
+    }
+}
+*/
+
 int main() {
     UART_DATA_REG = 'H';
     isr();
